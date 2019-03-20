@@ -2,6 +2,7 @@ package com.odi.parser.component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.odi.parser.model.Member;
+import com.odi.parser.repository.MemberRepository;
 import com.odi.parser.service.NationalAssemblyInfoService;
 import com.odi.parser.service.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -18,6 +20,9 @@ public class MemberParser {
 
     @Autowired
     NationalAssemblyInfoService nationalAssemblyInfoService;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     public List<Member> parseMembers() throws IOException, URISyntaxException {
         List<Member> members = new ArrayList<>();
@@ -30,10 +35,21 @@ public class MemberParser {
             int num = JsonUtil.toValue(item.get("num"), Integer.class);
             ResponseEntity<String> responseDetail = nationalAssemblyInfoService.getMemberDetailInfoList(deptCd, num);
             Member member = JsonUtil.toObject(JsonUtil.toJsonNode(responseDetail.getBody()).get("response").get("body").get("item").toString(), Member.class);
+            member.setIdCode(num);
             members.add(member);
         }
 
         return members;
+    }
+
+    public void saveMembers() throws IOException, URISyntaxException {
+        List<Member> members = parseMembers();
+        for (Member member : members) {
+            if(memberRepository.findByIdCode(member.getIdCode()) == null) {
+                member.setUpdatedAt(new Date());
+                memberRepository.save(member);
+            }
+        }
     }
 
 }

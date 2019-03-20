@@ -3,11 +3,18 @@ package com.odi.parser.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.util.Date;
 
+@Entity
 @Data
 public class Member {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
     @JsonProperty("empNm")
@@ -64,7 +71,7 @@ public class Member {
     @JsonProperty("memTitle")
     private String profile;
 
-    private Timestamp updatedAt;
+    private Date updatedAt;
 
     private Integer idCode;
 

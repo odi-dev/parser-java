@@ -25,4 +25,9 @@ public class MemberParserTest {
             System.out.println(member);
     }
 
+    @Test
+    public void saveMembers() throws Exception {
+        memberParser.saveMembers();
+    }
+
 }
