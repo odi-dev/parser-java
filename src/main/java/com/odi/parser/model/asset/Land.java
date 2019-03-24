@@ -1,13 +1,18 @@
 package com.odi.parser.model.asset;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.odi.parser.model.enums.RelationType;
 import lombok.Data;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 @Data
 public class Land {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
     private Integer memberId;
     private String type;
@@ -16,16 +21,21 @@ public class Land {
     private Integer lastPrice;
     private Integer price;
     private Date registeredAt;
+
+    @Column(name = "relation")
     private Integer relationId;
     private String description;
     private String reason;
 
-    private String relation;
+    @Transient
+    private RelationType relation;
 
     @JsonProperty("price_increase")
+    @Transient
     private Integer priceIncrease;
 
     @JsonProperty("price_decrease")
+    @Transient
     private Integer priceDecrease;
 
     public void setLastPrice(String lastPrice) {

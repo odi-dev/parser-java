@@ -19,4 +19,9 @@ public class AssetParserTest {
         System.out.println(assetParser.parseAssetResult(path));
     }
 
+    @Test
+    public void saveLands() throws Exception {
+        assetParser.saveLands();
+    }
+
 }

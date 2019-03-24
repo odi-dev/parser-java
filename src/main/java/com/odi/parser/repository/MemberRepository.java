@@ -5,9 +5,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface MemberRepository extends CrudRepository<Member, Long> {
 
     @Query(value = "select * from member where id_code = :idCode", nativeQuery = true)
     Member findByIdCode(@Param("idCode") int idCode);
+
+    @Query(value = "select * from member where name = :name", nativeQuery = true)
+    List<Member> findByName(@Param("name") String name);
 
 }

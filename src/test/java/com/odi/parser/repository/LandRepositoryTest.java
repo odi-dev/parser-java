@@ -6,26 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.*;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MemberRepositoryTest {
+public class LandRepositoryTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    LandRepository landRepository;
 
     @Test
     public void findAll() {
-        System.out.println(memberRepository.findAll());
-    }
-
-    @Test
-    public void findByIdCode() {
-        System.out.println(memberRepository.findByIdCode(153));
-    }
-
-    @Test
-    public void findByName() {
-        System.out.println(memberRepository.findByName("김성태"));
+        System.out.println(landRepository.findAll());
     }
 
 }
