@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @Component
 public class JsonUtil {
@@ -31,5 +32,9 @@ public class JsonUtil {
 
     public static <T> T toObject(String json, Class<T> type) throws IOException {
         return mapper.readValue(json, type);
+    }
+
+    public static <T> T toObject(InputStream src, Class<T> valueType) throws IOException {
+        return mapper.readValue(src, valueType);
     }
 }
