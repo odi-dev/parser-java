@@ -5,7 +5,7 @@ import com.odi.parser.model.enums.RelationType;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Data

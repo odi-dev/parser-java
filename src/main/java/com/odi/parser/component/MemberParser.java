@@ -11,8 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -45,11 +46,15 @@ public class MemberParser {
     public void saveMembers() throws IOException, URISyntaxException {
         List<Member> members = parseMembers();
         for (Member member : members) {
-            if(memberRepository.findByIdCode(member.getIdCode()) == null) {
-                member.setUpdatedAt(new Date());
+            if(!isDuplicateMember(member)) {
+                member.setUpdatedAt(Date.valueOf(LocalDate.now()));
                 memberRepository.save(member);
             }
         }
+    }
+
+    private boolean isDuplicateMember(Member member) {
+        return memberRepository.findByIdCode(member.getIdCode()) != null;
     }
 
 }

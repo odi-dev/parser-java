@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Component
@@ -44,12 +44,20 @@ public class AssetParser {
 
         List<Land> lands = assetResult.getAsset().getLand();
         for (Land land : lands) {
-            Relation relation = relationRepository.findByType(land.getRelation().name());
+            Date registeredAt = Date.valueOf("2018-03-29");
 
-            land.setMemberId(member.getId());
-            land.setRelationId(relation.getId());
-            land.setRegisteredAt(new Date());
-            landRepository.save(land);
+            if(!isDuplicateLand(land, registeredAt)) {
+                Relation relation = relationRepository.findByType(land.getRelation().name());
+                land.setMemberId(member.getId());
+                land.setRelationId(relation.getId());
+                land.setRegisteredAt(registeredAt);
+                landRepository.save(land);
+            }
+
         }
+    }
+
+    private boolean isDuplicateLand(Land land, Date registeredAt) {
+        return landRepository.findByDescriptionAndRegisteredAt(land.getDescription(), registeredAt) != null;
     }
 }
