@@ -20,8 +20,8 @@ public class AssetParserTest {
     }
 
     @Test
-    public void saveLands() throws Exception {
-        assetParser.saveLands();
+    public void saveAssets() throws Exception {
+        assetParser.saveAssets();
     }
 
 }

@@ -46,14 +46,14 @@ public class MemberParser {
     public void saveMembers() throws IOException, URISyntaxException {
         List<Member> members = parseMembers();
         for (Member member : members) {
-            if(!isDuplicateMember(member)) {
+            if(!isDuplicatedMember(member)) {
                 member.setUpdatedAt(Date.valueOf(LocalDate.now()));
                 memberRepository.save(member);
             }
         }
     }
 
-    private boolean isDuplicateMember(Member member) {
+    private boolean isDuplicatedMember(Member member) {
         return memberRepository.findByIdCode(member.getIdCode()) != null;
     }
 
