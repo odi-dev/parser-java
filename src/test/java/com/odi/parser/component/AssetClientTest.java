@@ -6,22 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.*;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AssetParserTest {
+public class AssetClientTest {
 
     @Autowired
-    AssetParser assetParser;
+    AssetClient assetClient;
 
     @Test
-    public void parseAssetResult() throws Exception {
-        String path = "json/test.json";
-        System.out.println(assetParser.parseAssetResult(path));
+    public void insertAssets() throws Exception {
+        assetClient.insertAssets();
     }
-
-    @Test
-    public void saveAssets() throws Exception {
-        assetParser.saveAssets();
-    }
-
 }
