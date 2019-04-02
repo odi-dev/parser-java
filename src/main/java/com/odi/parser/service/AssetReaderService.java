@@ -7,6 +7,7 @@ import com.opencsv.CSVReader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,9 +17,14 @@ import java.util.NoSuchElementException;
 @Service
 public class AssetReaderService {
 
-    public List<AssetNode> readAssets() throws IOException {
-        String path = "csv/data1.csv";
-        CSVReader csvReader = new CSVReader(new FileReader(new ClassPathResource(path).getFile()));
+    public File[] readAllPaths(String folder) {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        String path = loader.getResource("csv/").getPath();
+        return new File(path).listFiles();
+    }
+
+    public List<AssetNode> readAssets(File file) throws IOException {
+        CSVReader csvReader = new CSVReader(new FileReader(file));
 
         String name;
         String[] line;

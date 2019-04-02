@@ -10,6 +10,7 @@ import com.odi.parser.service.command.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
@@ -32,27 +33,34 @@ public class AssetClient {
     @Autowired
     VehicleRepository vehicleRepository;
 
-    public void insertAssets() throws IOException {
-        List<AssetNode> assetNodes = assetReaderService.readAssets();
-        Date registeredAt = Date.valueOf("2018-03-29");
-        SaveCommandExecutor saveCommandExecutor = new SaveCommandExecutor();
+    public final static String FOLDER_PATH = "csv/";
+    public final static String NOTICE_DATE = "2018-03-29";
 
-        for(AssetNode assetNode : assetNodes) {
-            switch (assetNode.getAssetType()) {
-                case LAND:
-                    LandSaveCommand landSaveCommand = new LandSaveCommand(assetParserService, landRepository);
-                    saveCommandExecutor.executeCommand(landSaveCommand, assetNode, registeredAt);
-                    break;
-                case BUILDING:
-                    BuildingSaveCommand buildingSaveCommand = new BuildingSaveCommand(assetParserService, buildingRepository);
-                    saveCommandExecutor.executeCommand(buildingSaveCommand, assetNode, registeredAt);
-                    break;
-                case VEHICLE:
-                    VehicleSaveCommand vehicleSaveCommand = new VehicleSaveCommand(assetParserService, vehicleRepository);
-                    saveCommandExecutor.executeCommand(vehicleSaveCommand, assetNode, registeredAt);
-                    break;
+    public void insertAssets() throws IOException {
+        File[] files = assetReaderService.readAllPaths(FOLDER_PATH);
+        for (File file : files) {
+            List<AssetNode> assetNodes = assetReaderService.readAssets(file);
+            Date registeredAt = Date.valueOf(NOTICE_DATE);
+            SaveCommandExecutor saveCommandExecutor = new SaveCommandExecutor();
+
+            for(AssetNode assetNode : assetNodes) {
+                switch (assetNode.getAssetType()) {
+                    case LAND:
+                        LandSaveCommand landSaveCommand = new LandSaveCommand(assetParserService, landRepository);
+                        saveCommandExecutor.executeCommand(landSaveCommand, assetNode, registeredAt);
+                        break;
+                    case BUILDING:
+                        BuildingSaveCommand buildingSaveCommand = new BuildingSaveCommand(assetParserService, buildingRepository);
+                        saveCommandExecutor.executeCommand(buildingSaveCommand, assetNode, registeredAt);
+                        break;
+                    case VEHICLE:
+                        VehicleSaveCommand vehicleSaveCommand = new VehicleSaveCommand(assetParserService, vehicleRepository);
+                        saveCommandExecutor.executeCommand(vehicleSaveCommand, assetNode, registeredAt);
+                        break;
+                }
             }
         }
+
     }
 
 }
