@@ -5,6 +5,7 @@ import com.odi.parser.model.Relation;
 import com.odi.parser.model.asset.AssetNode;
 import com.odi.parser.model.asset.Building;
 import com.odi.parser.model.asset.Land;
+import com.odi.parser.model.asset.Vehicle;
 import com.odi.parser.repository.MemberRepository;
 import com.odi.parser.repository.RelationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,22 @@ public class AssetParserService {
         Relation relation = relationRepository.findByType(assetNode.getRelationType().name());
 
         return Building.builder()
+                .registeredAt(registeredAt)
+                .memberId(member.getId())
+                .relation(relation)
+                .type(assetNode.getType())
+                .lastPrice(assetNode.getLastPrice())
+                .price(assetNode.getPrice())
+                .description(assetNode.getDescription())
+                .reason(assetNode.getReason())
+                .build();
+    }
+
+    public Vehicle convertAssetNodeToVehicle(AssetNode assetNode, Date registeredAt) {
+        Member member = memberRepository.findByName(assetNode.getName()).get(0);
+        Relation relation = relationRepository.findByType(assetNode.getRelationType().name());
+
+        return Vehicle.builder()
                 .registeredAt(registeredAt)
                 .memberId(member.getId())
                 .relation(relation)

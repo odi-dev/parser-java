@@ -3,11 +3,10 @@ package com.odi.parser.component;
 import com.odi.parser.model.asset.AssetNode;
 import com.odi.parser.repository.BuildingRepository;
 import com.odi.parser.repository.LandRepository;
+import com.odi.parser.repository.VehicleRepository;
 import com.odi.parser.service.AssetParserService;
 import com.odi.parser.service.AssetReaderService;
-import com.odi.parser.service.command.BuildingSaveCommand;
-import com.odi.parser.service.command.LandSaveCommand;
-import com.odi.parser.service.command.SaveCommandExecutor;
+import com.odi.parser.service.command.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +29,9 @@ public class AssetClient {
     @Autowired
     BuildingRepository buildingRepository;
 
+    @Autowired
+    VehicleRepository vehicleRepository;
+
     public void insertAssets() throws IOException {
         List<AssetNode> assetNodes = assetReaderService.readAssets();
         Date registeredAt = Date.valueOf("2018-03-29");
@@ -45,7 +47,12 @@ public class AssetClient {
                     BuildingSaveCommand buildingSaveCommand = new BuildingSaveCommand(assetParserService, buildingRepository);
                     saveCommandExecutor.executeCommand(buildingSaveCommand, assetNode, registeredAt);
                     break;
+                case VEHICLE:
+                    VehicleSaveCommand vehicleSaveCommand = new VehicleSaveCommand(assetParserService, vehicleRepository);
+                    saveCommandExecutor.executeCommand(vehicleSaveCommand, assetNode, registeredAt);
+                    break;
             }
         }
     }
+
 }
