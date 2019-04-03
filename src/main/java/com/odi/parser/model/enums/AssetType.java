@@ -16,6 +16,7 @@ public enum AssetType {
     NONPROFIT_CORPORATION("비영리법인에 출연한 재산"),
     POLITICAL_FUND("정치자금법에 따른 정치자금의 수입 및 지출을 위한 예금계좌의 예금(소계)"),
     BOND("채권(소계)"),
+    ANTIQUE("골동품 및 예술품(소계)"),
     DENIAL_NOTICE("고지거부 및 등록제외사항(소계)");
 
     AssetType(String desc) {
