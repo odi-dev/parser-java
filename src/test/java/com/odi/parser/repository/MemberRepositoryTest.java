@@ -25,7 +25,7 @@ public class MemberRepositoryTest {
 
     @Test
     public void findByName() {
-        System.out.println(memberRepository.findByName("김성태"));
+        System.out.println(memberRepository.findByName("문희상"));
     }
 
 }

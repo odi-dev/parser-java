@@ -19,7 +19,7 @@ public class AssetReaderService {
 
     public File[] readAllPaths(String folder) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        String path = loader.getResource("csv/").getPath();
+        String path = loader.getResource(folder).getPath();
         return new File(path).listFiles();
     }
 

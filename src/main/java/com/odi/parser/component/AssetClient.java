@@ -38,8 +38,9 @@ public class AssetClient {
     @Autowired
     StockRepository stockRepository;
 
-    public final static String FOLDER_PATH = "csv/";
-    public final static String NOTICE_DATE = "2018-03-29";
+    public final static String FOLDER_PATH = "csv/2019/";
+    // public final static String NOTICE_DATE = "2018-03-29";
+    public final static String NOTICE_DATE = "2019-03-28";
 
     public void insertAssets() throws IOException {
         File[] files = assetReaderService.readAllPaths(FOLDER_PATH);
