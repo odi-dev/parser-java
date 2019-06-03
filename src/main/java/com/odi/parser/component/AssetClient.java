@@ -2,10 +2,7 @@ package com.odi.parser.component;
 
 import com.odi.parser.model.asset.AssetNode;
 import com.odi.parser.model.enums.AssetType;
-import com.odi.parser.repository.BuildingRepository;
-import com.odi.parser.repository.CashRepository;
-import com.odi.parser.repository.LandRepository;
-import com.odi.parser.repository.VehicleRepository;
+import com.odi.parser.repository.*;
 import com.odi.parser.service.AssetParserService;
 import com.odi.parser.service.AssetReaderService;
 import com.odi.parser.service.command.*;
@@ -38,6 +35,9 @@ public class AssetClient {
     @Autowired
     CashRepository cashRepository;
 
+    @Autowired
+    StockRepository stockRepository;
+
     public final static String FOLDER_PATH = "csv/";
     public final static String NOTICE_DATE = "2018-03-29";
 
@@ -68,11 +68,12 @@ public class AssetClient {
                 return new VehicleSaveCommand(assetParserService, vehicleRepository);
             case CASH:
                 return new CashSaveCommand(assetParserService, cashRepository);
+            case STOCK:
+                return new StockSaveCommand(assetParserService, stockRepository);
             case GEM:
             case BOND:
             case DEPT:
             case GOLD:
-            case STOCK:
             case ANTIQUE:
             case DEPOSIT:
             case MEMBERSHIP:

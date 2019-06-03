@@ -83,4 +83,20 @@ public class AssetParserService {
                 .build();
     }
 
+    public Stock convertAssetNodeToStock(AssetNode assetNode, Date registeredAt) {
+        Member member = memberRepository.findByName(assetNode.getName()).get(0);
+        Relation relation = relationRepository.findByType(assetNode.getRelationType().name());
+
+        return Stock.builder()
+                .registeredAt(registeredAt)
+                .memberId(member.getId())
+                .relation(relation)
+                .type(assetNode.getType())
+                .lastPrice(assetNode.getLastPrice())
+                .price(assetNode.getPrice())
+                .description(assetNode.getDescription())
+                .reason(assetNode.getReason())
+                .build();
+    }
+
 }
