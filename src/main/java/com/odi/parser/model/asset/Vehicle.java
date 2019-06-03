@@ -1,34 +1,18 @@
 package com.odi.parser.model.asset;
 
 import com.odi.parser.model.Relation;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 import java.sql.Date;
 
 @Entity
-@Builder
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class Vehicle {
+public class Vehicle extends AssetAbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id;
-    private Date registeredAt;
-    private Integer memberId;
-
-    @OneToOne
-    @JoinColumn(name = "relation")
-    private Relation relation;
-    private String type;
-    private Integer lastPrice;
-    private Integer price;
-    private String description;
-    private String reason;
-
+    @Builder
+    public Vehicle(Long id, Date registeredAt, Long memberId, Relation relation, String type, Long lastPrice, Long price, String description, String reason) {
+        super(id, registeredAt, memberId, relation, type, lastPrice, price, description, reason);
+    }
 }

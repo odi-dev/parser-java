@@ -20,7 +20,7 @@ public class LandSaveCommand implements AssetSaveCommand {
     @Override
     public void execute(AssetNode assetNode, Date registeredAt) {
         Land land = assetParserService.convertAssetNodeToLand(assetNode, registeredAt);
-        if(landRepository.findByDescriptionAndRegisteredAt(land.getDescription(), land.getRegisteredAt()) == null)
+        if(landRepository.findByMemberIdAndDescriptionAndRegisteredAt(land.getMemberId(), land.getDescription(), land.getRegisteredAt()) == null)
             landRepository.save(land);
     }
 

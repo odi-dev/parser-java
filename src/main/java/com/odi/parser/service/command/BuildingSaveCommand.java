@@ -20,7 +20,7 @@ public class BuildingSaveCommand implements AssetSaveCommand {
     @Override
     public void execute(AssetNode assetNode, Date registeredAt) {
         Building building = assetParserService.convertAssetNodeToBuilding(assetNode, registeredAt);
-        if(buildingRepository.findByDescriptionAndRegisteredAt(building.getDescription(), building.getRegisteredAt()) == null)
+        if(buildingRepository.findByMemberIdAndDescriptionAndRegisteredAt(building.getMemberId(), building.getDescription(), building.getRegisteredAt()) == null)
             buildingRepository.save(building);
     }
 

@@ -9,10 +9,10 @@ import java.sql.Date;
 
 @Entity
 @NoArgsConstructor
-public class Land extends AssetAbstractEntity {
+public class Cash extends AssetAbstractEntity {
 
     @Builder
-    private Land(Long id, Date registeredAt, Long memberId, Relation relation, String type, Long lastPrice, Long price, String description, String reason) {
+    private Cash(Long id, Date registeredAt, Long memberId, Relation relation, String type, Long lastPrice, Long price, String description, String reason) {
         super(id, registeredAt, memberId, relation, type, lastPrice, price, description, reason);
     }
 }

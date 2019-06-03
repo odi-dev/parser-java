@@ -13,7 +13,7 @@ import javax.persistence.Id;
 public class Relation {
 
     @Id
-    private Integer id;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     private RelationType type;

@@ -1,7 +1,9 @@
 package com.odi.parser.component;
 
 import com.odi.parser.model.asset.AssetNode;
+import com.odi.parser.model.enums.AssetType;
 import com.odi.parser.repository.BuildingRepository;
+import com.odi.parser.repository.CashRepository;
 import com.odi.parser.repository.LandRepository;
 import com.odi.parser.repository.VehicleRepository;
 import com.odi.parser.service.AssetParserService;
@@ -33,6 +35,9 @@ public class AssetClient {
     @Autowired
     VehicleRepository vehicleRepository;
 
+    @Autowired
+    CashRepository cashRepository;
+
     public final static String FOLDER_PATH = "csv/";
     public final static String NOTICE_DATE = "2018-03-29";
 
@@ -44,23 +49,40 @@ public class AssetClient {
             SaveCommandExecutor saveCommandExecutor = new SaveCommandExecutor();
 
             for(AssetNode assetNode : assetNodes) {
-                switch (assetNode.getAssetType()) {
-                    case LAND:
-                        LandSaveCommand landSaveCommand = new LandSaveCommand(assetParserService, landRepository);
-                        saveCommandExecutor.executeCommand(landSaveCommand, assetNode, registeredAt);
-                        break;
-                    case BUILDING:
-                        BuildingSaveCommand buildingSaveCommand = new BuildingSaveCommand(assetParserService, buildingRepository);
-                        saveCommandExecutor.executeCommand(buildingSaveCommand, assetNode, registeredAt);
-                        break;
-                    case VEHICLE:
-                        VehicleSaveCommand vehicleSaveCommand = new VehicleSaveCommand(assetParserService, vehicleRepository);
-                        saveCommandExecutor.executeCommand(vehicleSaveCommand, assetNode, registeredAt);
-                        break;
+                AssetSaveCommand assetSaveCommand = getCommandByAssetType(assetNode.getAssetType());
+                if(assetSaveCommand != null) {
+                    saveCommandExecutor.executeCommand(assetSaveCommand, assetNode, registeredAt);
                 }
             }
         }
 
+    }
+
+    private AssetSaveCommand getCommandByAssetType(AssetType assetType) {
+        switch (assetType) {
+            case LAND:
+                return new LandSaveCommand(assetParserService, landRepository);
+            case BUILDING:
+                return new BuildingSaveCommand(assetParserService, buildingRepository);
+            case VEHICLE:
+                return new VehicleSaveCommand(assetParserService, vehicleRepository);
+            case CASH:
+                return new CashSaveCommand(assetParserService, cashRepository);
+            case GEM:
+            case BOND:
+            case DEPT:
+            case GOLD:
+            case STOCK:
+            case ANTIQUE:
+            case DEPOSIT:
+            case MEMBERSHIP:
+            case POLITICAL_FUND:
+            case NONPROFIT_CORPORATION:
+            case DENIAL_NOTICE:
+                return null;
+            default:
+                throw new RuntimeException();
+        }
     }
 
 }
