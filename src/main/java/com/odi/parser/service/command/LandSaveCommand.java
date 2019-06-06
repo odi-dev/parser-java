@@ -19,9 +19,13 @@ public class LandSaveCommand implements AssetSaveCommand {
 
     @Override
     public void execute(AssetNode assetNode, Date registeredAt) {
-        Land land = assetParserService.convertAssetNodeToLand(assetNode, registeredAt);
-        if(landRepository.findByMemberIdAndDescriptionAndRegisteredAt(land.getMemberId(), land.getDescription(), land.getRegisteredAt()) == null)
-            landRepository.save(land);
+        try {
+            Land land = assetParserService.convertAssetNodeToLand(assetNode, registeredAt);
+            if(landRepository.findByMemberIdAndDescriptionAndRegisteredAt(land.getMemberId(), land.getDescription(), land.getRegisteredAt()) == null)
+                landRepository.save(land);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

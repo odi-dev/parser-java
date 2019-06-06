@@ -15,4 +15,7 @@ public interface MemberRepository extends CrudRepository<Member, Long> {
     @Query(value = "select * from member where name = :name", nativeQuery = true)
     List<Member> findByName(@Param("name") String name);
 
+    @Query(value = "select * from member where name = :name and name_zh = :name_zh", nativeQuery = true)
+    List<Member> findByNameAndZh(@Param("name") String name, @Param("name_zh") String name_zh);
+
 }

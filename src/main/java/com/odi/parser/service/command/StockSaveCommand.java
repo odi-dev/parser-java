@@ -20,8 +20,12 @@ public class StockSaveCommand implements AssetSaveCommand {
 
     @Override
     public void execute(AssetNode assetNode, Date registeredAt) {
-        Stock stock = assetParserService.convertAssetNodeToStock(assetNode, registeredAt);
-        if(stockRepository.findByMemberIdAndDescriptionAndRegisteredAt(stock.getMemberId(), stock.getDescription(), stock.getRegisteredAt()) == null)
-            stockRepository.save(stock);
+        try {
+            Stock stock = assetParserService.convertAssetNodeToStock(assetNode, registeredAt);
+            if(stockRepository.findByMemberIdAndDescriptionAndRegisteredAt(stock.getMemberId(), stock.getDescription(), stock.getRegisteredAt()) == null)
+                stockRepository.save(stock);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

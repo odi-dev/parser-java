@@ -28,4 +28,9 @@ public class MemberRepositoryTest {
         System.out.println(memberRepository.findByName("문희상"));
     }
 
+    @Test
+    public void findByNameAndZh() {
+        System.out.println(memberRepository.findByNameAndZh("김성태", "金聖泰"));
+    }
+
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AssetParserService {
@@ -19,8 +21,8 @@ public class AssetParserService {
     @Autowired
     RelationRepository relationRepository;
 
-    public Land convertAssetNodeToLand(AssetNode assetNode, Date registeredAt) {
-        Member member = memberRepository.findByName(assetNode.getName()).get(0);
+    public Land convertAssetNodeToLand(AssetNode assetNode, Date registeredAt) throws Exception {
+        Member member = getMemberByName(assetNode.getName());
         Relation relation = relationRepository.findByType(assetNode.getRelationType().name());
 
         return Land.builder()
@@ -35,8 +37,8 @@ public class AssetParserService {
                 .build();
     }
 
-    public Building convertAssetNodeToBuilding(AssetNode assetNode, Date registeredAt) {
-        Member member = memberRepository.findByName(assetNode.getName()).get(0);
+    public Building convertAssetNodeToBuilding(AssetNode assetNode, Date registeredAt) throws Exception {
+        Member member = getMemberByName(assetNode.getName());
         Relation relation = relationRepository.findByType(assetNode.getRelationType().name());
 
         return Building.builder()
@@ -51,8 +53,8 @@ public class AssetParserService {
                 .build();
     }
 
-    public Vehicle convertAssetNodeToVehicle(AssetNode assetNode, Date registeredAt) {
-        Member member = memberRepository.findByName(assetNode.getName()).get(0);
+    public Vehicle convertAssetNodeToVehicle(AssetNode assetNode, Date registeredAt) throws Exception {
+        Member member = getMemberByName(assetNode.getName());
         Relation relation = relationRepository.findByType(assetNode.getRelationType().name());
 
         return Vehicle.builder()
@@ -67,8 +69,8 @@ public class AssetParserService {
                 .build();
     }
 
-    public Cash convertAssetNodeToCash(AssetNode assetNode, Date registeredAt) {
-        Member member = memberRepository.findByName(assetNode.getName()).get(0);
+    public Cash convertAssetNodeToCash(AssetNode assetNode, Date registeredAt) throws Exception {
+        Member member = getMemberByName(assetNode.getName());
         Relation relation = relationRepository.findByType(assetNode.getRelationType().name());
 
         return Cash.builder()
@@ -83,8 +85,8 @@ public class AssetParserService {
                 .build();
     }
 
-    public Stock convertAssetNodeToStock(AssetNode assetNode, Date registeredAt) {
-        Member member = memberRepository.findByName(assetNode.getName()).get(0);
+    public Stock convertAssetNodeToStock(AssetNode assetNode, Date registeredAt) throws Exception {
+        Member member = getMemberByName(assetNode.getName());
         Relation relation = relationRepository.findByType(assetNode.getRelationType().name());
 
         return Stock.builder()
@@ -97,6 +99,27 @@ public class AssetParserService {
                 .description(assetNode.getDescription())
                 .reason(assetNode.getReason())
                 .build();
+    }
+
+    private Member getMemberByName(String name) {
+        List<Member> members = new ArrayList<>();
+        if(name.contains("(")) {
+            String[] split = name.split("\\(");
+            name = split[0];
+            String name_zh = split[1].replace(")", "");
+            members = memberRepository.findByNameAndZh(name, name_zh);
+        } else {
+            members = memberRepository.findByName(name);
+        }
+
+        int size = members.size();
+        if(size == 0) {
+            throw new RuntimeException("Can not find members");
+        } else if(size > 1) {
+            throw new RuntimeException("Duplicated members");
+        }
+
+        return members.get(0);
     }
 
 }
