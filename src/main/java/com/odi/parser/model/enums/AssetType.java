@@ -19,6 +19,7 @@ public enum AssetType {
     BOND("채권(소계)"),
     ANTIQUE("골동품 및 예술품(소계)"),
     EQUITY_INTEREST("합명.합자.유한회사 출자지분(소계)"),
+    IPR("지식재산권"),
     DENIAL_NOTICE("고지거부 및 등록제외사항(소계)");
 
     AssetType(String desc) {

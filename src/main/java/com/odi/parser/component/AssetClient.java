@@ -82,6 +82,7 @@ public class AssetClient {
             case NONPROFIT_CORPORATION:
             case DENIAL_NOTICE:
             case EQUITY_INTEREST:
+            case IPR:
                 return null;
             default:
                 throw new RuntimeException();
