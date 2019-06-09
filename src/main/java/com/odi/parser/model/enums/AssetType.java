@@ -11,7 +11,8 @@ public enum AssetType {
     DEPT("채무(소계)"),
     STOCK("유가증권(소계)"),
     GEM("보석류(소계)"),
-    GOLD("금 및 백금(소계)"),
+    // GOLD("금 및 백금(소계)"), // 2018
+    GOLD("금및백금(소계)"), // 2019
     CASH("현금(소계)"),
     MEMBERSHIP("회원권(소계)"),
     NONPROFIT_CORPORATION("비영리법인에 출연한 재산"),
