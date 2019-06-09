@@ -21,7 +21,7 @@ public class BuildingSaveCommand implements AssetSaveCommand {
     public void execute(AssetNode assetNode, Date registeredAt) {
         try {
             Building building = assetParserService.convertAssetNodeToBuilding(assetNode, registeredAt);
-            if(buildingRepository.findByMemberIdAndDescriptionAndRegisteredAt(building.getMemberId(), building.getDescription(), building.getRegisteredAt()) == null)
+            if(buildingRepository.findByMemberIdAndDescriptionAndRegisteredAtAndRelation(building.getMemberId(), building.getDescription(), building.getRegisteredAt(), building.getRelationId()) == null)
                 buildingRepository.save(building);
         } catch (Exception e) {
             e.printStackTrace();

@@ -9,6 +9,6 @@ import java.sql.Date;
 
 public interface StockRepository extends CrudRepository<Stock, Long> {
 
-    @Query(value = "select * from stock where member_id = :memberId and description = :description and registered_at = :registered_at", nativeQuery = true)
-    Stock findByMemberIdAndDescriptionAndRegisteredAt(@Param("memberId") Long memberId, @Param("description") String description, @Param("registered_at") Date registeredAt);
+    @Query(value = "select * from stock where member_id = :memberId and description = :description and registered_at = :registered_at and relation = :relation", nativeQuery = true)
+    Stock findByMemberIdAndDescriptionAndRegisteredAtAndRelation(@Param("memberId") Long memberId, @Param("description") String description, @Param("registered_at") Date registeredAt, @Param("relation") Long relation);
 }

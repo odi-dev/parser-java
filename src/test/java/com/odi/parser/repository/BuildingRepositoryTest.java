@@ -26,6 +26,8 @@ public class BuildingRepositoryTest {
         String description = "서울특별시 마포구 상수동 신구강변연가아파트 건물 152.30m²";
         Date registeredAt = Date.valueOf("2018-03-29");
         System.out.println(buildingRepository.findByMemberIdAndDescriptionAndRegisteredAt(memberId, description, registeredAt));
+        Long relationId = Long.valueOf(1);
+        System.out.println(buildingRepository.findByMemberIdAndDescriptionAndRegisteredAtAndRelation(memberId, description, registeredAt, relationId));
     }
 
 }

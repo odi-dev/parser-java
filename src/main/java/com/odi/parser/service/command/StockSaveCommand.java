@@ -22,7 +22,7 @@ public class StockSaveCommand implements AssetSaveCommand {
     public void execute(AssetNode assetNode, Date registeredAt) {
         try {
             Stock stock = assetParserService.convertAssetNodeToStock(assetNode, registeredAt);
-            if(stockRepository.findByMemberIdAndDescriptionAndRegisteredAt(stock.getMemberId(), stock.getDescription(), stock.getRegisteredAt()) == null)
+            if(stockRepository.findByMemberIdAndDescriptionAndRegisteredAtAndRelation(stock.getMemberId(), stock.getDescription(), stock.getRegisteredAt(), stock.getRelationId()) == null)
                 stockRepository.save(stock);
         } catch (Exception e) {
             e.printStackTrace();

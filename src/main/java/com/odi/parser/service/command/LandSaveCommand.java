@@ -21,7 +21,7 @@ public class LandSaveCommand implements AssetSaveCommand {
     public void execute(AssetNode assetNode, Date registeredAt) {
         try {
             Land land = assetParserService.convertAssetNodeToLand(assetNode, registeredAt);
-            if(landRepository.findByMemberIdAndDescriptionAndRegisteredAt(land.getMemberId(), land.getDescription(), land.getRegisteredAt()) == null)
+            if(landRepository.findByMemberIdAndDescriptionAndRegisteredAtAndRelation(land.getMemberId(), land.getDescription(), land.getRegisteredAt(), land.getRelationId()) == null)
                 landRepository.save(land);
         } catch (Exception e) {
             e.printStackTrace();

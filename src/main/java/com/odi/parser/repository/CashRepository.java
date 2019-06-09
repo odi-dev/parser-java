@@ -9,6 +9,6 @@ import java.sql.Date;
 
 public interface CashRepository extends CrudRepository<Cash, Long> {
 
-    @Query(value = "select * from cash where member_id = :memberId and description = :description and registered_at = :registered_at", nativeQuery = true)
-    Cash findByMemberIdAndDescriptionAndRegisteredAt(@Param("memberId") Long memberId, @Param("description") String description, @Param("registered_at") Date registeredAt);
+    @Query(value = "select * from cash where member_id = :memberId and description = :description and registered_at = :registered_at and relation = :relation", nativeQuery = true)
+    Cash findByMemberIdAndDescriptionAndRegisteredAtAndRelation(@Param("memberId") Long memberId, @Param("description") String description, @Param("registered_at") Date registeredAt, @Param("relation") Long relation);
 }

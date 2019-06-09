@@ -29,4 +29,11 @@ public class AssetAbstractEntity {
     private String description;
     private String reason;
 
+    public Long getRelationId() {
+        if(relation == null)
+            return null;
+
+        return relation.getId();
+    }
+
 }

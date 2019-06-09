@@ -21,7 +21,7 @@ public class CashSaveCommand implements AssetSaveCommand {
     public void execute(AssetNode assetNode, Date registeredAt) {
         try {
             Cash cash = assetParserService.convertAssetNodeToCash(assetNode, registeredAt);
-            if(cashRepository.findByMemberIdAndDescriptionAndRegisteredAt(cash.getMemberId(), cash.getDescription(), cash.getRegisteredAt()) == null)
+            if(cashRepository.findByMemberIdAndDescriptionAndRegisteredAtAndRelation(cash.getMemberId(), cash.getDescription(), cash.getRegisteredAt(), cash.getRelationId()) == null)
                 cashRepository.save(cash);
         } catch (Exception e) {
             e.printStackTrace();

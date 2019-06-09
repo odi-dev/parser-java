@@ -23,7 +23,7 @@ public class VehicleSaveCommand implements AssetSaveCommand {
     public void execute(AssetNode assetNode, Date registeredAt) {
         try {
             Vehicle vehicle = assetParserService.convertAssetNodeToVehicle(assetNode, registeredAt);
-            if(vehicleRepository.findByMemberIdAndDescriptionAndRegisteredAt(vehicle.getMemberId(), vehicle.getDescription(), vehicle.getRegisteredAt()) == null)
+            if(vehicleRepository.findByMemberIdAndDescriptionAndRegisteredAtAndRelation(vehicle.getMemberId(), vehicle.getDescription(), vehicle.getRegisteredAt(), vehicle.getRelationId()) == null)
                 vehicleRepository.save(vehicle);
         } catch (Exception e) {
             e.printStackTrace();
