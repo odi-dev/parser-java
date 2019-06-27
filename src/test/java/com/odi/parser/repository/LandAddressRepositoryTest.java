@@ -1,4 +1,4 @@
-package com.odi.parser.service;
+package com.odi.parser.repository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,15 +10,13 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GeoServiceTest {
+public class LandAddressRepositoryTest {
 
     @Autowired
-    GeoService geoService;
+    LandAddressRepository landAddressRepository;
 
     @Test
-    public void getAddress() throws Exception {
-        String addressName = "부산광역시 해운대구 중동 1394-55번지";
-        System.out.println(geoService.getAddress(addressName));
+    public void findByLandId() {
+        System.out.println(landAddressRepository.findByLandId((long) 1234));
     }
-
 }
