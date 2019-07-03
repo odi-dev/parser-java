@@ -47,7 +47,6 @@ public class Building extends AssetAbstractEntity {
             addressName = split[0] + " " + split[1] + " " + split[2];
         }
 
-        //  todo. 특수 케이스 처리
         return addressName;
     }
 

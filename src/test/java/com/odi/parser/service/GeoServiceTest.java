@@ -17,7 +17,7 @@ public class GeoServiceTest {
 
     @Test
     public void getAddress() throws Exception {
-        String addressName = "부산광역시 해운대구 중동 1394-55번지";
+        String addressName = "미국";
         System.out.println(geoService.getAddress(addressName));
     }
 

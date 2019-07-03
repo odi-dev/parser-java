@@ -16,9 +16,19 @@ public class AddressResponse {
         return meta.getTotal_count() == 1;
     }
 
-    public boolean isValidAddress(String addressName) {
+    public boolean isValidLandAddress(String addressName) {
         if(addressName.equals("0"))
             return false;
+
+        if(meta.getTotal_count() > 0)
+            return true;
+
+        throw new RuntimeException("Invalid Address");
+    }
+
+    public boolean isValidBuildingAddress(String addressName) {
+        if(addressName.equals("일본") || addressName.equals("미국"))
+            return true;
 
         if(meta.getTotal_count() > 0)
             return true;

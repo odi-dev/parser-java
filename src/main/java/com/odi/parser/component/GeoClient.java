@@ -1,9 +1,13 @@
 package com.odi.parser.component;
 
+import com.odi.parser.model.asset.Building;
+import com.odi.parser.model.asset.BuildingAddress;
 import com.odi.parser.model.asset.Land;
 import com.odi.parser.model.asset.LandAddress;
 import com.odi.parser.model.kakao.Address;
 import com.odi.parser.model.kakao.AddressResponse;
+import com.odi.parser.repository.BuildingAddressRepository;
+import com.odi.parser.repository.BuildingRepository;
 import com.odi.parser.repository.LandAddressRepository;
 import com.odi.parser.repository.LandRepository;
 import com.odi.parser.service.AddressParserService;
@@ -21,7 +25,13 @@ public class GeoClient {
     LandRepository landRepository;
 
     @Autowired
+    BuildingRepository buildingRepository;
+
+    @Autowired
     LandAddressRepository landAddressRepository;
+
+    @Autowired
+    BuildingAddressRepository buildingAddressRepository;
 
     @Autowired
     AddressParserService addressParserService;
@@ -39,13 +49,43 @@ public class GeoClient {
                 // System.out.println(address);
             }
 
-            if(addressResponse.isValidAddress(addressName)) {
+            if(addressResponse.isValidLandAddress(addressName)) {
                 Address address = addressResponse.getFirstAddress();
                 Long landId = land.getId();
                 LandAddress landAddress = addressParserService.convertAddressToLandAddress(address, landId);
 
                 if(landAddressRepository.findByLandId(landId) == null)
                     landAddressRepository.save(landAddress);
+            }
+
+        }
+    }
+
+    public void insertBuildingAddress() {
+        Iterable<Building> buildings = buildingRepository.findAll();
+        for(Building building : buildings) {
+            String addressName = building.getAddressName();
+            AddressResponse addressResponse = geoService.getAddress(addressName);
+
+            if (!addressResponse.hasSingleAddress()) {
+                addressName = invalidBuildingAddressNameToValidName(addressName);
+                addressResponse = geoService.getAddress(addressName);
+                // System.out.println(addressName);
+                // System.out.println(addressResponse);
+            }
+
+            if(addressResponse.isValidBuildingAddress(addressName)) {
+                Address address;
+                if(addressName.equals("일본") || addressName.equals("미국"))
+                    address = new Address(addressName, addressName);
+                else
+                    address = addressResponse.getFirstAddress();
+
+                Long buildingId = building.getId();
+                BuildingAddress buildingAddress = addressParserService.convertAddressToBuildingAddress(address, buildingId);
+
+                if(buildingAddressRepository.findByBuildingId(buildingId) == null)
+                    buildingAddressRepository.save(buildingAddress);
             }
 
         }
@@ -119,6 +159,55 @@ public class GeoClient {
            return "경상북도 상주시 모서면 호음리 615-1번지";
 
        return addressName;
+    }
+
+    private String invalidBuildingAddressNameToValidName(String addressName) {
+        if(addressName.equals("서울특별시 동작구 수석빌딩"))
+            return "서울 동작구 상도로 30";
+
+        if(addressName.equals("서울특별시서초구방배동 롯데캐슬아르떼"))
+            return "서울 서초구 방배천로18길 11";
+
+        if(addressName.equals("경기도용인시수지구풍덕천동 수지현대아파트"))
+            return "경기 용인시 수지구 수지로342번길 16";
+
+        if(addressName.equals("경기도용인시수지구죽전동 동부센트레빌아파트"))
+            return "경기 용인시 수지구 대지로 137";
+
+        if(addressName.equals("세종특별자치시 도담동 도담센트럴프라자"))
+            return "세종특별자치시 한누리대로 583 도담센트럴프라자 702호";
+
+        if(addressName.equals("세종특별자치시 도담동 라온프라이빗시티1"))
+            return "세종특별자치시 도담동 665";
+
+        if(addressName.equals("경기도 파주시 문발동 제별관동"))
+            return "경기도 파주시 문발동";
+
+        if(addressName.equals("경기도 파주시 문발동 제은하관동"))
+            return "경기도 파주시 문발동";
+
+        if(addressName.equals("세종특별자치시 대평동 3-1생활권"))
+            return "세종특별자치시 대평3길 18";
+
+        if(addressName.equals("서울특별시 양천구 목6동"))
+            return "서울특별시 양천구 목동";
+
+        if(addressName.equals("동경 미나토구 아카사카"))
+            return "일본";
+
+        if(addressName.equals("Yearling Terrace Rockville"))
+            return "미국";
+
+        if(addressName.equals("Bellezza Hakubaicho, Kamiyagawa-cho"))
+            return "일본";
+
+        if(addressName.equals("Brookdale drive, Santa Clara, CA"))
+            return "미국";
+
+        if(addressName.equals("Overland Park Drive Greensboro NC"))
+            return "미국";
+
+        return addressName;
     }
 
 }

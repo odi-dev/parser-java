@@ -1,5 +1,6 @@
 package com.odi.parser.service;
 
+import com.odi.parser.model.asset.BuildingAddress;
 import com.odi.parser.model.asset.LandAddress;
 import com.odi.parser.model.kakao.Address;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,18 @@ public class AddressParserService {
                 .region3depthName(address.getRegion_3depth_name())
                 .x(new BigDecimal(address.getX()))
                 .y(new BigDecimal(address.getY()))
+                .build();
+    }
+
+    public BuildingAddress convertAddressToBuildingAddress(Address address, Long buildingId) {
+        return BuildingAddress.builder()
+                .buildingId(buildingId)
+                .addressName(address.getAddress_name())
+                .region1depthName(address.getRegion_1depth_name())
+                .region2depthName(address.getRegion_2depth_name())
+                .region3depthName(address.getRegion_3depth_name())
+                .x(address.getX() == null ? null : new BigDecimal(address.getX()))
+                .y(address.getY() == null ? null : new BigDecimal(address.getY()))
                 .build();
     }
 }
